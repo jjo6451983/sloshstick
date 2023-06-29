@@ -1,0 +1,50 @@
+import React, { useState } from 'react';
+
+const Item = ({ id }) => {
+  const [checkboxGroup1, setCheckboxGroup1] = useState({a: false, b: false, c: false});
+  const [checkboxGroup2, setCheckboxGroup2] = useState({a: false, b: false, c: false});
+
+  const handleCheckboxChange = (group, checkboxId) => {
+    if (group === 'group1') {
+      setCheckboxGroup1({...checkboxGroup1, [checkboxId]: !checkboxGroup1[checkboxId]});
+    } else {
+      setCheckboxGroup2({...checkboxGroup2, [checkboxId]: !checkboxGroup2[checkboxId]});
+    }
+  }
+
+  return (
+    <div className="item">
+      <p>Item {id}</p>
+      <div className="checkboxGroup">
+        {Object.keys(checkboxGroup1).map((checkboxId) => (
+          <label key={checkboxId}>
+            <input type="checkbox" checked={checkboxGroup1[checkboxId]} onChange={() => handleCheckboxChange('group1', checkboxId)} />
+            {checkboxId.toUpperCase()}
+          </label>
+        ))}
+      </div>
+      <div className="checkboxGroup">
+        {Object.keys(checkboxGroup2).map((checkboxId) => (
+          <label key={checkboxId}>
+            <input type="checkbox" checked={checkboxGroup2[checkboxId]} onChange={() => handleCheckboxChange('group2', checkboxId)} />
+            {checkboxId.toUpperCase()}
+          </label>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+const App = () => {
+  const items = Array.from({length: 18}, (_, i) => i + 1);
+  
+  return (
+    <div className="app">
+      {items.map(item => (
+        <Item key={item} id={item} />
+      ))}
+    </div>
+  );
+}
+
+export default App;
